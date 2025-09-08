@@ -1,33 +1,25 @@
 export default class Ship {
-    constructor() {
-        this.carrier = {
-            length: 5,
-            hits: 0,
-            sunk: false
-        }
+    constructor(name,length) {
+        this.name = name
 
-        this.battleship = {
-            length: 4,
-            hits: 0,
-            sunk: false
-        }
+        this.length = length
 
-        this.destroyer = {
-            length: 3,
-            hits: 0,
-            sunk: false
-        }
+        this.hits = 0
 
-        this.submarine = {
-            length: 3,
-            hits: 0,
-            sunk: false
-        }
+        this.sunk = false
+    }
 
-        this.patrolBoat = {
-            length: 2,
-            hits: 0,
-            sunk: false
+    hit() {
+        if (!this.sunk) {
+            this.hits++
+        }
+        
+        this.isSunk()
+    }
+
+    isSunk() {
+        if (this.hits === this.length) {
+            this.sunk = true
         }
     }
 }
