@@ -127,6 +127,21 @@ describe('Gameboard tests', () => {
 
             expect(destroyer.hits).toBe(1)
         })
+
+        test('Sink a ship', () => {
+            gameboard.receiveAttack(0, 0)
+            gameboard.receiveAttack(0, 1)
+            gameboard.receiveAttack(0, 2)
+
+            expect(destroyer.sunk).toBeTruthy()
+        })
+
+        test('Multiple hits but alive', () => {
+            gameboard.receiveAttack(0,0)
+            gameboard.receiveAttack(0,2)
+
+            expect(destroyer.sunk).toBeFalsy()
+        })
     })
     
     describe('Edge cases', () => {
