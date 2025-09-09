@@ -8,3 +8,8 @@
     src: url(../fonts/BndyYlwSolid.ttf);
 }
 
+header > h1 {
+    font-family: BundyYellowSolid;
+    font-size: 3rem;
+    text-align: center;
+}
