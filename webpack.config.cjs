@@ -11,7 +11,7 @@ module.exports = {
         clean: true
     },
     devServer: {
-        watchFile: ['./src/template.html'],
+        watchFiles: ['./src/template.html'],
         hot: true,
         open: true
     },
