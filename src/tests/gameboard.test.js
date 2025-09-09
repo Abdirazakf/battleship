@@ -22,13 +22,13 @@ describe('Gameboard tests', () => {
         test('full of null values', () => {
             gameboard.board.forEach(row => {
                 row.forEach(cell => {
-                    expect(cell).toBeNull
+                    expect(cell).toBeNull()
                 })
             })
         })
     })
 
-    describe('Ship placement', () => {
+    describe('Ship Placement', () => {
         test('place ship horizontal', () => {
             const result = gameboard.placeShip(
                 destroyer, 0, 0, 'horizontal'
@@ -73,6 +73,73 @@ describe('Gameboard tests', () => {
             const result = gameboard.placeShip(patrolBoat, 3, 6, 'vertical')
 
             expect(result).toBeTruthy()
+        })
+
+        test('prevent negative values', () => {
+            expect(gameboard.placeShip(destroyer, -1, 3, 'vertical')).toBeFalsy()
+            expect(gameboard.placeShip(destroyer, -4, -5, 'horizontal')).toBeFalsy()
+        })
+    })
+
+    describe('Receive Attacks', () => {
+        beforeEach(() => {
+            // Ship at row: 0, cols: 0,1,2
+            gameboard.placeShip(destroyer, 0, 0, 'horizontal')
+        })
+
+        test('missed shot', () => {
+            const result = gameboard.receiveAttack(5, 5)
+            
+            expect(result).toBeFalsy()
+
+            expect(gameboard.board[5][5]).toBe('miss')
+        })
+
+        test('hit on ship', () => {
+            const result = gameboard.receiveAttack(0, 1)
+
+            expect(result).toBeTruthy()
+
+            expect(gameboard.board[0][1]).toBe('hit')
+
+            expect(destroyer.hits).toBe(1)
+        })
+
+        test('hit when their are multiple ships', () => {
+            gameboard.placeShip(patrolBoat, 3, 3, 'vertical')
+            
+            gameboard.receiveAttack(0, 1)
+            expect(destroyer.hits).toBe(1)
+            expect(patrolBoat.hits).toBe(0)
+            
+            gameboard.receiveAttack(3, 3)
+            expect(destroyer.hits).toBe(1)
+            expect(patrolBoat.hits).toBe(1)
+        })
+
+        test('prevent hitting same spot twice', () => {
+            gameboard.receiveAttack(0, 0)
+            const result = gameboard.receiveAttack(0, 0)
+            
+            expect(result).toBeFalsy()
+
+            expect(gameboard.board[0][0]).toBe('hit')
+
+            expect(destroyer.hits).toBe(1)
+        })
+    })
+    
+    describe('Edge cases', () => {
+        test('handles placing ship at board edges', () => {
+            const submarine = new Ship ('Submarine', 3)
+            expect(gameboard.placeShip(destroyer, 0, 7, 'horizontal')).toBeTruthy()
+            expect(gameboard.placeShip(submarine, 7, 0, 'vertical')).toBeTruthy()
+        })
+        
+        test('validates position correctly for corner placement', () => {
+            const dingy = new Ship('Dingy', 1)
+            expect(gameboard.placeShip(patrolBoat, 9, 8, 'horizontal')).toBeTruthy()
+            expect(gameboard.placeShip(dingy, 8, 9, 'vertical')).toBeTruthy()
         })
     })
 })

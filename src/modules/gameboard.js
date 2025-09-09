@@ -59,14 +59,17 @@ export default class Gameboard {
     }
 
     receiveAttack(row, col) {
-        if (this.board[row][col] === null) {
+        const cell = this.board[row][col]
+
+        if (cell === null) {
             this.board[row][col] = 'miss'
             return false
-        } else if (this.board[row][col] !== 'miss' || this.board[row][col] !== 'hit') {
-            const ship = this.board[row][col]
-            ship.hit()
+        } else if (cell !== 'miss' && cell !== 'hit') {
+            cell.hit()
             this.board[row][col] = 'hit'
             return true
         }
+        
+        return false
     }
 }
