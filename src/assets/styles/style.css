@@ -78,8 +78,7 @@ header > a {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.content-area {
-    border: 1px solid red;
+.content-area { 
     height: 80%;
     width: 100%;
     flex: 1 0 auto;
@@ -89,14 +88,13 @@ header > a {
     align-items: center;
 }
 
-.content-area > * {
-    border: 1px solid red;
-}
-
 .game-container {
     height: 80%;
-    width: 90%;
-    min-width: 1000px;
+    width: 80%;
+    padding: 20px 10px 40px 10px;
+    min-width: 1100px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -152,6 +150,20 @@ h2 {
     transform: scale(1.05);
 }
 
+.grid-cell.ship {
+    background: rgba(100, 100, 100, 0.3);
+    border: rgba(255,255,255,0.1);
+}
+
+.grid-cell.hit {
+    background: rgba(255,0,0,0.6);
+    border: red;
+}
+
+.grid-cell.miss {
+    background: rgba(100,150,255,0.3);
+    border: rgba(100, 150, 255, 0.6);
+}
 
 .info-modal {
     background: #2a3445;

@@ -63,8 +63,13 @@ export default class Game {
         this.player = new Player(this.playerName)
         this.computer = new Player('Computer')
 
+        const carrier = new Ship('Carrier', 5)
         const destroyer = new Ship('Destroyer', 3)
+        const patrolBoat = new Ship('Patrol Boat', 2)
+
         this.player.gameboard.placeShip(destroyer, 0, 0, 'horizontal')
+        this.player.gameboard.placeShip(patrolBoat, 7, 8, 'vertical')
+        this.player.gameboard.placeShip(carrier, 4, 5, 'horizontal')
 
         this.createGrid(this.elements.playerGrid, this.player.gameboard, true)
         this.createGrid(this.elements.computerGrid, this.computer.gameboard, true)
