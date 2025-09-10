@@ -41,7 +41,7 @@ export default class Game {
     }
 
     createGrid(container, gameboard, isPlayer) {
-        container.innerHtml = ''
+        container.innerHTML = ''
 
         for (let row = 0; row < 10; row++) {
             for (let col = 0; col < 10; col++) {
@@ -59,6 +59,30 @@ export default class Game {
         }
     }
 
+    updateGrid(container, row, col, state) {
+        const cell = container.querySelector(`[data-row="${row}"][data-col="${col}"]`)
+
+        if (cell) {
+            cell.classList.add(state)
+        }
+    }
+
+    handleAttack(event) {
+        if (!event.target.classList.contains('grid-cell')) {
+            return
+        }
+
+        const row = parseInt(event.target.dataset.row)
+        const col = parseInt(event.target.dataset.col)
+
+        if (event.target.classList.contains('hit') || event.target.classList.contains('miss')) {
+            return
+        }
+
+        const hit = this.computer.gameboard.receiveAttack(row, col)
+        this.updateGrid(this.elements.computerGrid, row, col, hit ? 'hit' : 'miss')
+    }
+
     startGame() {
         this.player = new Player(this.playerName)
         this.computer = new Player('Computer')
@@ -67,12 +91,14 @@ export default class Game {
         const destroyer = new Ship('Destroyer', 3)
         const patrolBoat = new Ship('Patrol Boat', 2)
 
-        this.player.gameboard.placeShip(destroyer, 0, 0, 'horizontal')
-        this.player.gameboard.placeShip(patrolBoat, 7, 8, 'vertical')
-        this.player.gameboard.placeShip(carrier, 4, 5, 'horizontal')
+        this.computer.gameboard.placeShip(destroyer, 0, 0, 'horizontal')
+        this.computer.gameboard.placeShip(patrolBoat, 7, 8, 'vertical')
+        this.computer.gameboard.placeShip(carrier, 4, 5, 'horizontal')
 
         this.createGrid(this.elements.playerGrid, this.player.gameboard, true)
         this.createGrid(this.elements.computerGrid, this.computer.gameboard, true)
+
+        this.elements.computerGrid.addEventListener('click', (e) => this.handleAttack(e))
     }
 
     init() {
