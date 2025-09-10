@@ -96,7 +96,7 @@ export default class Game {
         this.computer.gameboard.placeShip(carrier, 4, 5, 'horizontal')
 
         this.createGrid(this.elements.playerGrid, this.player.gameboard, true)
-        this.createGrid(this.elements.computerGrid, this.computer.gameboard, true)
+        this.createGrid(this.elements.computerGrid, this.computer.gameboard, false)
 
         this.elements.computerGrid.addEventListener('click', (e) => this.handleAttack(e))
     }
