@@ -10,7 +10,7 @@
     "test": "jest",
     "start": "webpack serve",
     "build": "webpack",
-    "deploy": "git checkout gh-pages && git merge main --no-edit && npm run build && git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages"
+    "deploy": "git merge main --no-edit && npm run build && git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages && git checkout main"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
