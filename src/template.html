@@ -21,20 +21,30 @@
         </a>
     </header>
     <div class="content-area">
-        <dialog class="info-modal">
-            <form class="player-info">
-                <div>
-                    <label for="name">ENTER YOUR NAME</label>
-                </div>
-                <input type="text" name="name" id="name" placeholder="Your Name" maxlength="10" required>
-                <button type="submit">Play</button>
-            </form>
-        </dialog>
+        <div class="game-container">
+            <div class="player-container">
+                <h2>PLAYER</h2>
+                <div class="player-grid"></div>
+            </div>
+            <div class="comp-container">
+                <h2>COMPUTER</h2>
+                <div class="comp-grid"></div>
+            </div>
+        </div>
     </div>
     <footer>
         <a href="https://www.github.com/Abdirazakf/" target="_blank" rel="noopener noreferrer">
             Copyright <sup>&copy;</sup> Abdirazakf 2025
         </a>
     </footer>
+    <dialog class="info-modal">
+        <form class="player-info">
+            <div>
+                <label for="name">ENTER YOUR NAME</label>
+            </div>
+            <input type="text" name="name" id="name" placeholder="Your Name" maxlength="20" required>
+            <button type="submit">Play</button>
+        </form>
+    </dialog>
 </body>
 </html>

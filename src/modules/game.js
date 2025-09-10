@@ -1,27 +1,70 @@
 import Player from './player.js'
-import UI from './ui.js'
-
-const ui = new UI
 
 export default class Game {
     constructor() {
         this.playerName = null
+        this.elements = {
+            modal: document.querySelector('dialog'),
+            form: document.querySelector('form'),
+            playerHeader: document.querySelector('.player-container > h2')
+        }
+    }
+
+    openModal() {
+        this.elements.modal.showModal()
+    }
+
+    closeModal() {
+        this.elements.modal.close()
+        this.elements.form.reset()
     }
 
     getPlayerName() {
-        ui.elements.form.addEventListener('submit', (event) => {
+        this.elements.form.addEventListener('submit', (event) => {
             event.preventDefault()
 
-            const formData = new FormData(ui.elements.form)
+            const formData = new FormData(this.elements.form)
             const name = formData.get('name')
             
             if (name) {
-                this.playerName = name
+                this.playerName = name.toUpperCase()
+                this.elements.playerHeader.textContent = this.playerName
             }
 
-            console.log(this.playerName)
-            ui.closeModal()
+            this.closeModal()
         })
+    }
+
+    createPlayer() {
+        this.getPlayerName()
+        const player = new Player(this.playerName)
+
+        return player
+    }
+
+    createPlayerGrid() {
+
+    }
+
+    createComputer() {
+        const computer = new Player('Computer')
+        return computer
+    }
+
+    createComputerGrid() {
+        
+    }
+
+    startGame() {
+        const player = this.createPlayer()
+        const computer = this.createComputer()
+
+
+    }
+
+    init() {
+        this.openModal()
+        this.createPlayer()
     }
 }
             
