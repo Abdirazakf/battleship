@@ -1,4 +1,5 @@
 import Player from './player.js'
+import Ship from './ships.js'
 
 export default class Game {
     constructor() {
@@ -6,8 +7,12 @@ export default class Game {
         this.elements = {
             modal: document.querySelector('dialog'),
             form: document.querySelector('form'),
-            playerHeader: document.querySelector('.player-container > h2')
+            playerHeader: document.querySelector('.player-container > h2'),
+            playerGrid: document.querySelector('.player-grid'),
+            computerGrid: document.querySelector('.comp-grid')
         }
+        this.player = null
+        this.computer = null
     }
 
     openModal() {
@@ -35,36 +40,40 @@ export default class Game {
         })
     }
 
-    createPlayer() {
-        this.getPlayerName()
-        const player = new Player(this.playerName)
+    createGrid(container, gameboard, isPlayer) {
+        container.innerHtml = ''
 
-        return player
-    }
+        for (let row = 0; row < 10; row++) {
+            for (let col = 0; col < 10; col++) {
+                const cell = document.createElement('div')
+                cell.classList.add('grid-cell')
+                cell.dataset.row = row
+                cell.dataset.col = col
 
-    createPlayerGrid() {
+                if (isPlayer && gameboard.board[row][col] !== null) {
+                    cell.classList.add('ship')
+                }
 
-    }
-
-    createComputer() {
-        const computer = new Player('Computer')
-        return computer
-    }
-
-    createComputerGrid() {
-        
+                container.appendChild(cell)
+            }
+        }
     }
 
     startGame() {
-        const player = this.createPlayer()
-        const computer = this.createComputer()
+        this.player = new Player(this.playerName)
+        this.computer = new Player('Computer')
 
+        const destroyer = new Ship('Destroyer', 3)
+        this.player.gameboard.placeShip(destroyer, 0, 0, 'horizontal')
 
+        this.createGrid(this.elements.playerGrid, this.player.gameboard, true)
+        this.createGrid(this.elements.computerGrid, this.computer.gameboard, true)
     }
 
     init() {
         this.openModal()
-        this.createPlayer()
+        this.getPlayerName()
+        this.startGame()
     }
 }
             

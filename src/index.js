@@ -5,5 +5,5 @@ import Game from './modules/game.js'
 const game = new Game
 
 document.addEventListener('DOMContentLoaded', () => {
-    // game.init()
+    game.init()
 })
