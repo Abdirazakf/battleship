@@ -5,11 +5,13 @@ export default class Game {
     constructor() {
         this.playerName = null
         this.elements = {
-            modal: document.querySelector('dialog'),
+            infoModal: document.querySelector('.info-modal'),
+            winnerModal: document.querySelector('.winner-modal'),
             form: document.querySelector('form'),
             playerHeader: document.querySelector('.player-container > h2'),
             playerGrid: document.querySelector('.player-grid'),
-            computerGrid: document.querySelector('.comp-grid')
+            computerGrid: document.querySelector('.comp-grid'),
+            resetButton: document.querySelector('.reset-button')
         }
         this.player = null
         this.computer = null
@@ -17,13 +19,21 @@ export default class Game {
         this.gameActive = false
     }
 
-    openModal() {
-        this.elements.modal.showModal()
+    openInfoModal() {
+        this.elements.infoModal.showModal()
     }
 
-    closeModal() {
-        this.elements.modal.close()
+    openWinnerModal() {
+        this.elements.winnerModal.showModal()
+    }
+
+    closeInfoModal() {
+        this.elements.infoModal.close()
         this.elements.form.reset()
+    }
+
+    resetGame() {
+        location.reload()
     }
 
     getPlayerName() {
@@ -38,7 +48,7 @@ export default class Game {
                 this.elements.playerHeader.textContent = this.playerName
             }
 
-            this.closeModal()
+            this.closeInfoModal()
         })
     }
 
@@ -195,11 +205,15 @@ export default class Game {
     }
 
     displayGameOver(winner) {
-        const message = document.createElement('div')
-        message.classList.add('game-over')
+        this.openWinnerModal()
+
+        const message = document.querySelector('.winner-modal > h2')
         message.textContent = `${winner} wins!`
-        const contentArea = document.querySelector('.content-area')
-        contentArea.appendChild(message)
+
+        this.elements.resetButton.addEventListener('click', () => {
+            this.resetGame()
+        })
+
     }
 
     startGame() {
@@ -235,7 +249,7 @@ export default class Game {
     }
 
     init() {
-        this.openModal()
+        this.openInfoModal()
         this.getPlayerName()
         this.startGame()
     }

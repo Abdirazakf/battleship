@@ -174,7 +174,8 @@ h2 {
     animation: ship-sinking 0.5s ease-in-out
 }
 
-.info-modal {
+.info-modal,
+.winner-modal {
     background: #2a3445;
     padding: 40px;
     border-radius: 20px;
@@ -187,7 +188,8 @@ h2 {
     animation: slideUp 1s ease;
 }
 
-.info-modal::backdrop {
+.info-modal::backdrop,
+.winner-modal::backdrop {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
 }
@@ -260,6 +262,25 @@ h2 {
 
 .player-info button[type="submit"]:active {
     transform: translateY(0);
+}
+
+.winner-modal > h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 2rem;
+    font-family: BundyYellowSolid;
+}
+
+.button-container {
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.button-container > * {
+    cursor: pointer;
 }
 
 footer {
