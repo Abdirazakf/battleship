@@ -5,6 +5,7 @@ export default class Gameboard {
         this.board = Array.from({length: this.rows}, () => 
             new Array(this.cols).fill(null)
         )
+        this.shipPositions = new Map()
     }
 
     validPosition(ship, row, col, direction) {
@@ -45,16 +46,21 @@ export default class Gameboard {
             return false
         }
 
+        const positions = []
+
         if (direction === 'horizontal') {
             for (let i = 0; i < ship.length; i++) {
                 this.board[row][col + i] = ship
+                positions.push({row, col: col + i})
             }
         } else if (direction === 'vertical') {
             for (let i = 0; i < ship.length; i++) {
                 this.board[row + i][col] = ship
+                positions.push({row: row + i, col})
             }
         }
 
+        this.shipPositions.set(ship, positions)
         return true
     }
 
@@ -63,13 +69,14 @@ export default class Gameboard {
 
         if (cell === null) {
             this.board[row][col] = 'miss'
-            return false
+            return { hit: false, sunk: false, ship: null }
         } else if (cell !== 'miss' && cell !== 'hit') {
-            cell.hit()
+            const ship = cell
+            ship.hit()
             this.board[row][col] = 'hit'
-            return true
+            return { hit: true, sunk: ship.sunk, ship: ship }
         }
         
-        return false
+        return { hit: false, sunk: false, ship: null }
     }
 }

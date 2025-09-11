@@ -88,65 +88,72 @@ export default class Game {
             }
         }
     }
-
+    
     handleAttack(event) {
         if (!this.gameActive || !this.playerTurn) {
             return
         }
-
+        
         if (!event.target.classList.contains('grid-cell')) {
             return
         }
-
+        
         const row = parseInt(event.target.dataset.row)
         const col = parseInt(event.target.dataset.col)
-
+        
         if (event.target.classList.contains('hit') || event.target.classList.contains('miss')) {
             return
         }
-
-        const hit = this.computer.gameboard.receiveAttack(row, col)
-        this.updateGrid(this.elements.computerGrid, row, col, hit ? 'hit' : 'miss')
-
+        
+        const result = this.computer.gameboard.receiveAttack(row, col)
+        this.updateGrid(this.elements.computerGrid, row, col, result.hit ? 'hit' : 'miss')
+        
+        if (result.sunk && result.ship) {
+            this.markShipAsSunk(this.elements.computerGrid, this.computer.gameboard, result.ship)
+        }
+        
         if (this.checkGameOver()) {
             return
         }
-
+        
         this.playerTurn = false
         setTimeout(() => this.computerMove(), 500)
     }
-
+        
     computerMove() {
         if (!this.gameActive || this.playerTurn) {
             return
         }
-
+        
         let validMove = false
         let row, col
-
+        
         while(!validMove) {
             row = this.randomInt(10)
             col = this.randomInt(10)
-
+            
             const cell = this.elements.playerGrid.querySelector(`[data-row="${row}"][data-col="${col}"]`)
-
+            
             if (cell && !cell.classList.contains('hit') && !cell.classList.contains('miss')) {
                 validMove = true
             }
         }
-
-        const hit = this.player.gameboard.receiveAttack(row, col)
-        this.updateGrid(this.elements.playerGrid, row, col, hit ? 'hit' : 'miss')
-
+        
+        const result = this.player.gameboard.receiveAttack(row, col)
+        this.updateGrid(this.elements.playerGrid, row, col, result.hit ? 'hit' : 'miss')
+        
+        if (result.sunk && result.ship) {
+            this.markShipAsSunk(this.elements.playerGrid, this.player.gameboard, result.ship)
+        }
+        
         if (this.checkGameOver()) {
             return
         }
-
+        
         this.playerTurn = true
     }
-
+    
     checkAllShipsSunk(gameboard) {
-
         for (let row = 0; row < 10; row++) {
             for (let col = 0; col < 10; col++) {
                 const cell = gameboard.board[row][col]
@@ -158,6 +165,19 @@ export default class Game {
         }
 
         return true
+    }
+
+    markShipAsSunk(grid, gameboard, ship) {
+        const positions = gameboard.shipPositions.get(ship)
+
+        if (positions) {
+            positions.forEach(position => {
+                const cell = grid.querySelector(`[data-row="${position.row}"][data-col="${position.col}"]`)
+                if (cell) {
+                    cell.classList.add('sunk')
+                }
+            })
+        }
     }
 
     checkGameOver() {
