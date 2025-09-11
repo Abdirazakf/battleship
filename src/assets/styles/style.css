@@ -240,7 +240,8 @@ h2 {
     border-color: #4dd0e1;
 }
 
-.player-info button[type="submit"] {
+.player-info button[type="submit"],
+.play-again {
     padding: 14px 30px;
     font-size: 18px;
     font-weight: 600;
@@ -256,11 +257,13 @@ h2 {
     overflow: hidden;
 }
 
-.player-info button[type="submit"]:hover {
+.player-info button[type="submit"]:hover,
+.play-again:hover {
     transform: translateY(-2px);
 }
 
-.player-info button[type="submit"]:active {
+.player-info button[type="submit"]:active,
+.play-again:active {
     transform: translateY(0);
 }
 
