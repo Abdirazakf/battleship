@@ -11,7 +11,7 @@ export default class Game {
             playerHeader: document.querySelector('.player-container > h2'),
             playerGrid: document.querySelector('.player-grid'),
             computerGrid: document.querySelector('.comp-grid'),
-            resetButton: document.querySelector('.reset-button')
+            playAgainButton: document.querySelector('.play-again')
         }
         this.player = null
         this.computer = null
@@ -127,7 +127,7 @@ export default class Game {
         }
         
         this.playerTurn = false
-        setTimeout(() => this.computerMove(), 500)
+        setTimeout(() => this.computerMove(), 100)
     }
         
     computerMove() {
@@ -210,7 +210,7 @@ export default class Game {
         const message = document.querySelector('.winner-modal > h2')
         message.textContent = `${winner} wins!`
 
-        this.elements.resetButton.addEventListener('click', () => {
+        this.elements.playAgainButton.addEventListener('click', () => {
             this.resetGame()
         })
 
